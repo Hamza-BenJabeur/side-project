@@ -3,8 +3,9 @@ import  cors from 'cors';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
-
+ 
 import  chatRoutes from "./routes/chat.js";
+import userRoutes from "./routes/user.js"
 
 const app=express()
 app.use(cors());
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: true }))
 
 
 app.use('/chats', chatRoutes);
+app.use('/users', userRoutes);
 
 const PORT = process.env.PORT|| 3000;
 
