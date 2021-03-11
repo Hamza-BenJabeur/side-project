@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import bcrypt from 'bcrypt';
 
 import User from '../models/users.js'
 
@@ -30,11 +30,12 @@ export const getUser = async (req, res) => {
 }
 
 export const createUser = async (req, res) => {
-    const {firstName,lastName,email,password,imgURL} = req.body;
-
-    const newUser = new User({firstName,lastName,email,password,imgURL})
+    const {firstName,lastName,userName,email,password,imgURL} = req.body;
+    const hashedPassword= await bcrypt.hash(password,10);
+    const newUser = new User({firstName,lastName,userName,email,password:hashedPassword,imgURL})
 
     try {
+  
         await newUser.save();
 
         res.status(201).json(newUser );
@@ -45,11 +46,11 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const { id } = req.params;
-    const {firstName,lastName,email,password,imgURL} = req.body;
-    
+    const {firstName,lastName,userName,email,password,imgURL} = req.body;
+    const hashedPassword= await bcrypt.hash(password,10);
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const updatedUser = {firstName,lastName,email,password,imgURL, _id: id };
+    const updatedUser = {firstName,lastName,userName,email,password:hashedPassword,imgURL, _id: id };
 
     await User.findByIdAndUpdate(id, updatedUser, { new: true });
 
