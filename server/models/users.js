@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     imgURL: String,
+    msgID:[String],
+    channelID:[String],
     createdAt: {
         type: Date,
         default: new Date(),
