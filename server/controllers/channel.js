@@ -40,7 +40,7 @@ export const updateChannel = async (req, res) => {
     const currentChannel=await Channel.findById(id)
     const updatedChannel = {name,descrption, _id: id };
 
-    await ChatMessage.findByIdAndUpdate(id, {...currentChannel,name,description}, { new: true });
+    await Channel.findByIdAndUpdate(id, {...currentChannel,name,description}, { new: true });
 
     res.json(updatedChannel);
 }
@@ -53,6 +53,14 @@ export const deleteChannel = async (req, res) => {
     await Channel.findByIdAndRemove(id);
 
     res.json({ message: "Channel deleted successfully." });
+}
+
+export const addUserToChannel =async (req,res)=>{
+    const {id} =req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No channel with id: ${id}`);
+    const currentChannel=await Channel.findById(id)
+    await Channel.findByIdAndUpdate(id, {...currentChannel,userID:currentChannel.userID.push(req.body.userID)}, { new: true });
+    res.send("success");
 }
 
 
