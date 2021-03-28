@@ -9,7 +9,7 @@ export default (chats= [], action) => {
       case "DELETE_CHAT":
         return chats.filter((chat) => chat._id !== action.payload);
       default:
-        return channels;
+        return chats;
     }
   };
   

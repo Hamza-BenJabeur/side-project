@@ -1,25 +1,36 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
+import {useDispatch} from 'react-redux'
 import SideBar from './SideBar'
+import {getChannels} from '../../redux/actions/channel'
+import { useSelector } from 'react-redux';
 import Nav from './nav';
 import './Style.css';
 function Chat(){
+    const dispatch =useDispatch(); 
     const [active,setActive]=useState(false)
+    const [currentName,setCurrentName]=useState("");
     const handleClick=()=>{
       console.log("active");
       setActive(!active);
     }
-    
+    const Name=(x)=>{
+        setCurrentName(x)
+    }
+    useEffect(()=>{
+        dispatch(getChannels());
+      },[dispatch]);
+    const channels = useSelector(state => state.channels)
     return (
         <div class="wrapper">
-
-        <SideBar active={active}/>
+{console.log(channels)}
+        <SideBar active={active} channels={channels} Name={Name}/>
 
  
         <div id="content">
-            <Nav handleClick={handleClick} active={active}/>
-            <h3>Lorem Ipsum Dolor</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <Nav handleClick={handleClick} active={active} currentName={currentName}/>
+           
         </div>
+
     </div>
 
     
