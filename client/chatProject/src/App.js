@@ -4,6 +4,7 @@ import Chat from './components/chat/Chat';
 import { useDispatch } from 'react-redux';
 import { getChats } from './redux/actions/chat';
 import { useSelector } from 'react-redux';
+import LogIn from "./components/authentification/LogIn"
 // import Modal from './components/chat/Modal';
 function App() {
   const dispatch = useDispatch();
@@ -13,7 +14,8 @@ function App() {
   const chats=useSelector((state)=>state.chats)
   return (
     <div className="App">
-      <Chat/>
+      {/* <Chat/> */}
+      <LogIn/>
      {console.log(chats)}
       {/* <Modal/> */}
     </div>
