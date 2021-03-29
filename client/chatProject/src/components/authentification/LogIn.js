@@ -1,6 +1,19 @@
 import {useState} from 'react';
+import FileBase from 'react-file-base64';
+import { useDispatch } from 'react-redux';
+import {createUser} from '../../redux/actions/user'
 function LogIn (){
+    const dispatch = useDispatch();
     const [value,setValue]=useState(false)
+    const [user, setUser] = useState({ firstName: '', lastName: '', userName: '', email: '', imgURL: '',password:'' });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+       
+          dispatch(createUser(user));
+     
+      };
+     
     return (
         <section class="login-block">
     <div class="container">
@@ -33,20 +46,37 @@ function LogIn (){
 :
 <div>
 <h2 class="text-center">Register Now</h2>
-<form class="login-form">
+<form class="login-form"  onSubmit={handleSubmit}>
 
 <div class="form-group">
-<label for="exampleInputEmail1" class="text-uppercase">Username</label>
-<input type="text" class="form-control" placeholder="Username"/>
+<label for="exampleInputEmail1" class="text-uppercase">firstName</label>
+<input type="text" class="form-control" placeholder="firstName"
+onChange={(e) => setUser({ ...user, firstName: e.target.value })}/>
 </div>
 <div class="form-group">
-<label for="exampleInputEmail1" class="text-uppercase">email</label>
-<input type="text" class="form-control" placeholder="email"/>
+<label for="exampleInputEmail1" class="text-uppercase">lastName</label>
+<input type="text" class="form-control" placeholder="lastName"
+onChange={(e) => setUser({ ...user, lastName: e.target.value })}/>
 </div>
 
+<div class="form-group">
+<label for="exampleInputPassword1" class="text-uppercase">userName</label>
+<input type="text" class="form-control" placeholder="userName"
+onChange={(e) => setUser({ ...user, userName: e.target.value })}/>
+</div>
+<div class="form-group">
+<label for="exampleInputPassword1" class="text-uppercase">email</label>
+<input type="text" class="form-control" placeholder="email"
+onChange={(e) => setUser({ ...user, email: e.target.value })}/>
+</div>
+<div class="form-group">
+<label for="exampleInputPassword1" class="text-uppercase">image</label>
+<FileBase type="file" multiple={false} onDone={({ base64 }) => setUser({ ...user, imgURL: base64 })} />
+</div>
 <div class="form-group">
 <label for="exampleInputPassword1" class="text-uppercase">Password</label>
-<input type="password" class="form-control" placeholder="Password"/>
+<input type="password" class="form-control" placeholder="Password"
+onChange={(e) => setUser({ ...user, password: e.target.value })}/>
 </div>
 
 <div class="form-group">
